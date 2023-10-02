@@ -1,4 +1,4 @@
-export interface SWResponse<T> {
+export interface SWDetailedResponse<T> {
     message: string;
     result: {
         description: string;
@@ -7,4 +7,19 @@ export interface SWResponse<T> {
         __v: number;
         id: string;
     }
+}
+
+export interface SWAllItemsResponse {
+    message: string;
+    total_records: number;
+    total_pages: number;
+    previous: string;
+    next: string;
+    results: SWSingleResult[];
+}
+
+export interface SWSingleResult {
+    uid: string;
+    name: string;
+    url: string;
 }

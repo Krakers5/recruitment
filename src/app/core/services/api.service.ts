@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getRandomNumber } from '../utils/random-number';
 import { SWCharacterProperties } from '../models/intefaces/character.interface';
 import { Observable, catchError, throwError } from 'rxjs';
-import { SWResponse } from '../models/intefaces/common-response.interface';
+import { SWAllItemsResponse, SWDetailedResponse } from '../models/intefaces/common-response.interface';
+import { SWStarshipProperties } from '@core/models/intefaces/starship.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,39 @@ import { SWResponse } from '../models/intefaces/common-response.interface';
 export class ApiService {
 
   private baseUrl = 'https://www.swapi.tech/api';
+  private peopleUrl = `${this.baseUrl}/people`;
+  private starshipsUrl = `${this.baseUrl}/starships`
 
   constructor(private http: HttpClient) { }
 
-  getRandomCharacter(max: number): Observable<SWResponse<SWCharacterProperties>> {
-    const characterId = getRandomNumber(max);
-    return this.http.get<SWResponse<SWCharacterProperties>>(`${this.baseUrl}/people/${characterId}`)
+  getAllCharacters(): Observable<SWAllItemsResponse> {
+    const params = new HttpParams().set('page', '1').set('limit', '100')
+    return this.http.get<SWAllItemsResponse>(this.peopleUrl, {params})
+    .pipe(
+      catchError(this.handleError)
+      )
+  }
+
+  getAllStarships(): Observable<SWAllItemsResponse> {
+    const params = new HttpParams().set('page', '1').set('limit', '100')
+    return this.http.get<SWAllItemsResponse>(this.starshipsUrl, {params})
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getCharacter(id: string): Observable<SWDetailedResponse<SWCharacterProperties>> {
+    return this.http.get<SWDetailedResponse<SWCharacterProperties>>(`${this.peopleUrl}/${id}`)
     .pipe(
       catchError(this.handleError)
     );
+  }
+
+  getStarship(id: string): Observable<SWDetailedResponse<SWStarshipProperties>> {
+    return this.http.get<SWDetailedResponse<SWStarshipProperties>>(`${this.starshipsUrl}/${id}`)
+    .pipe(
+      catchError(this.handleError)
+    )
   }
 
   private handleError(error: HttpErrorResponse) {
