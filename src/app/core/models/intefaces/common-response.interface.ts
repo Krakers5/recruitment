@@ -23,3 +23,8 @@ export interface SWSingleResult {
     name: string;
     url: string;
 }
+
+export interface SWPlayerItem<T> {
+  uid: string;
+  properties: T;
+}
