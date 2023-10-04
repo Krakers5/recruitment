@@ -7,11 +7,13 @@ import { GameEffects } from './store/game.effects';
 import { gameReducer } from './store/game.reducer';
 import { GameCardComponent } from './game-card/game-card.component';
 import {MatCardModule} from '@angular/material/card';
+import {MatRadioModule} from '@angular/material/radio';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [GameContainerComponent, GameCardComponent],
-  imports: [CommonModule, MatCardModule, StoreModule.forFeature('game', gameReducer), EffectsModule.forFeature([GameEffects])],
+  imports: [CommonModule, FormsModule, MatCardModule, MatRadioModule, StoreModule.forFeature('game', gameReducer), EffectsModule.forFeature([GameEffects])],
   exports: [GameContainerComponent],
 })
 export class GameModule {}

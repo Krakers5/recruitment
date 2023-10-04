@@ -1,8 +1,20 @@
-<ng-container *ngIf="(players$ | async) as players">
-    <ng-container *ngFor="let player of players">
-        <app-game-card [playerItem]="player?.properties"></app-game-card>
-    </ng-container>
-</ng-container>
+<main>
+<div>
+  <label for="resource">Choose a resource</label>
+  <mat-radio-group id="resource" [(ngModel)]="chosenResource">
+    <mat-radio-button [value]="Resource.PEOPLE">{{ Resource.PEOPLE }}</mat-radio-button>
+    <mat-radio-button [value]="Resource.STARSHIPS">{{ Resource.STARSHIPS}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<section class="game-cards">
+  <ng-container *ngIf="(players$ | async) as players">
+      <ng-container *ngFor="let player of players">
+          <app-game-card [playerItem]="player?.properties">
+          </app-game-card>
+      </ng-container>
+  </ng-container>
+</section>
 
-<button (click)="getRandomCharacters()">asd</button>
-<button (click)="getRandomStarships()">dsa</button>
+<button (click)="getPlayers()">Play</button>
+</main>
+

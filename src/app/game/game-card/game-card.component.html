@@ -1,3 +1,17 @@
 <mat-card>
-    <mat-card-header>{{playerItem?.name}}</mat-card-header>
+    <mat-card-header>
+      <mat-card-title>{{playerItem?.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <p>Bio:</p>
+        <span *ngFor="let bio of bioCharacteristics | keyvalue">
+    {{bio.key}}: {{bio.value}}
+  </span>
+      </div>
+      <div>
+        <p>Clash factor</p>
+        <p>{{clashFactor?.name}}: {{clashFactor?.value}}</p>
+      </div>
+    </mat-card-content>
 </mat-card>
