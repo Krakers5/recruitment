@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCharactersList, selectStarshipsList } from '../game.selectors';
+import { selectCharactersList, selectLeftPlayer, selectRightPlayer, selectStarshipsList } from '../game.selectors';
 import { Resource } from '../../models/resource';
 import { GameApiActions, GameComponentActions } from '../actions';
 
@@ -10,6 +10,8 @@ import { GameApiActions, GameComponentActions } from '../actions';
 export class GameFacade {
   charactersList$ = this.store.select(selectCharactersList);
   starshipsList$ = this.store.select(selectStarshipsList);
+  leftPlayer$ = this.store.select(selectLeftPlayer);
+  rightPlayer$ = this.store.select(selectRightPlayer);
 
   constructor(private store: Store) {}
 

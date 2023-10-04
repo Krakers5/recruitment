@@ -1,1 +1,8 @@
-<p>game-container works!</p>
+<ng-container *ngIf="(players$ | async) as players">
+    <ng-container *ngFor="let player of players">
+        <app-game-card [playerItem]="player?.properties"></app-game-card>
+    </ng-container>
+</ng-container>
+
+<button (click)="getRandomCharacters()">asd</button>
+<button (click)="getRandomStarships()">dsa</button>
