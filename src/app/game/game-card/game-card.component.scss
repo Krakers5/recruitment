@@ -1,4 +1,52 @@
 :host {
   display: flex;
-  width: 200px;
+  width: 300px;
+}
+
+.game-card {
+  width: 100%;
+
+  &__header {
+    border-bottom: 1px solid black;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  &__info-panel {
+    padding-bottom: 1rem;
+  }
+
+  &__clash {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__loser {
+    opacity: 0.3;
+  }
+
+  &__winner {
+    border: 1px solid gold;
+    filter: drop-shadow(2px 4px 6px gold);
+  }
+}
+
+.info-panel {
+  &__header {
+    font-weight: bold;
+  }
+}
+
+.clash {
+  
+  &__header {
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  &__factor {
+    font-size: 18px;
+  }
 }

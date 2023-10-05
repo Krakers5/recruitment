@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { forkJoin, of, withLatestFrom } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
 import { ApiService } from '@core/services/api.service';
 import { Store } from '@ngrx/store';
 import { GameFacade } from './facade/game.facade';
@@ -52,7 +52,7 @@ export class GameEffects {
       withLatestFrom(this.gameFacade.charactersList$),
       switchMap(([_, charactersList]) => {
         const leftPlayerCharacter = getRandomArrayElement(Object.values(charactersList));
-        const rightPlayerCharacter = getRandomArrayElement(Object.values(charactersList));
+        const rightPlayerCharacter = getRandomArrayElement(Object.values(charactersList), leftPlayerCharacter.uid);
         return forkJoin([
           this.apiService.getCharacter(leftPlayerCharacter.uid),
           this.apiService.getCharacter(rightPlayerCharacter.uid),

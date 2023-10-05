@@ -1,9 +1,47 @@
 :host {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resources {
+  display: flex;
+  align-items: center;
+  justify-content: center;;
 }
 
 .game-cards {
   display: flex;
   gap: 1rem;
+  flex-direction: column;
+  position: relative;
+
+  &__player-cards {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__spinner {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.play-button {
+  width: 200px;
+  margin-top: 1rem;
+}
+
+.isLoading {
+  filter: blur(3px);
 }

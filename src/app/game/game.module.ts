@@ -9,11 +9,14 @@ import { GameCardComponent } from './game-card/game-card.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule} from "@angular/forms";
+import {MatButtonModule} from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
   declarations: [GameContainerComponent, GameCardComponent],
-  imports: [CommonModule, FormsModule, MatCardModule, MatRadioModule, StoreModule.forFeature('game', gameReducer), EffectsModule.forFeature([GameEffects])],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatCardModule, MatProgressSpinnerModule, MatRadioModule, StoreModule.forFeature('game', gameReducer), EffectsModule.forFeature([GameEffects])],
   exports: [GameContainerComponent],
 })
 export class GameModule {}

@@ -13,8 +13,8 @@ export interface SWAllItemsResponse {
     message: string;
     total_records: number;
     total_pages: number;
-    previous: string;
-    next: string;
+    previous: string | null;
+    next: string | null;
     results: SWSingleResult[];
 }
 

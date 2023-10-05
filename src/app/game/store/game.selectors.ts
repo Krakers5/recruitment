@@ -10,3 +10,12 @@ export const selectStarshipsList = createSelector(featureSelector, (state: GameS
 export const selectLeftPlayer = createSelector(featureSelector, (state: GameState) => state.leftPlayer);
 
 export const selectRightPlayer = createSelector(featureSelector, (state: GameState) => state.rightPlayer);
+
+export const selectLosingIndex = createSelector(featureSelector, (state: GameState) => state.losingIndex);
+
+export const selectLeftPlayerWins = createSelector(featureSelector, (state: GameState) => state.leftPlayerWins);
+
+export const selectRightPlayerWins = createSelector(featureSelector, (state: GameState) => state.rightPlayerWins);
+
+export const selectIsLoading = createSelector(featureSelector, (state: GameState) => state.isLoading);
+
