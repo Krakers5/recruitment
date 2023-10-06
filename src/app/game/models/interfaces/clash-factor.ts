@@ -1,1 +1,1 @@
-export type ClashFactor = {name: string, value: string}
+export type ClashFactor = { name: string; value: string };

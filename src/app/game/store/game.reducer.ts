@@ -5,7 +5,6 @@ import {
 import { createReducer, on } from '@ngrx/store';
 import { SWCharacterProperties } from '@core/models/intefaces/character.interface';
 import { SWStarshipProperties } from '@core/models/intefaces/starship.interface';
-import { Resource } from '../models/resource';
 import { GameApiActions, GameComponentActions } from './actions';
 import { isCharacter, isStarship } from '../utils/utils';
 
@@ -16,7 +15,6 @@ export interface GameState {
   rightPlayer: SWPlayerItem<
     SWCharacterProperties | SWStarshipProperties
   > | null;
-  resource: Resource;
   losingIndex: number;
   leftPlayerWins: number;
   rightPlayerWins: number;
@@ -28,7 +26,6 @@ export const initialState: GameState = {
   starshipsList: {},
   leftPlayer: null,
   rightPlayer: null,
-  resource: Resource.PEOPLE,
   losingIndex: 0,
   leftPlayerWins: 0,
   rightPlayerWins: 0,
@@ -103,9 +100,6 @@ export const gameReducer = createReducer(
   ),
   on(GameApiActions.fetchRandomItemFail, (state): GameState => {
     return { ...state, isLoading: false };
-  }),
-  on(GameComponentActions.changeResource, (state, action): GameState => {
-    return { ...state, resource: action.resource };
   }),
   on(GameComponentActions.leftPlayerWin, (state): GameState => {
     return { ...state, leftPlayerWins: state.leftPlayerWins++ };

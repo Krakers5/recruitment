@@ -1,8 +1,15 @@
-import { updateWinsCounter } from './../actions/game-component.actions';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCharactersList, selectIsLoading, selectLeftPlayer, selectLeftPlayerWins, selectLosingIndex, selectRightPlayer, selectRightPlayerWins, selectStarshipsList } from '../game.selectors';
-import { Resource } from '../../models/resource';
+import {
+  selectCharactersList,
+  selectIsLoading,
+  selectLeftPlayer,
+  selectLeftPlayerWins,
+  selectLosingIndex,
+  selectRightPlayer,
+  selectRightPlayerWins,
+  selectStarshipsList,
+} from '../game.selectors';
 import { GameApiActions, GameComponentActions } from '../actions';
 
 @Injectable({
@@ -34,10 +41,6 @@ export class GameFacade {
 
   fetchRandomStarships(): void {
     this.store.dispatch(GameApiActions.fetchRandomStarships());
-  }
-
-  changeResource(resource: Resource): void {
-    this.store.dispatch(GameComponentActions.changeResource({ resource }));
   }
 
   updateWinsCounter(): void {
