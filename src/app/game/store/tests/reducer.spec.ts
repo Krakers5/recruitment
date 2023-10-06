@@ -25,6 +25,7 @@ describe('Game reducer', () => {
     const expectedState = {
       ...initialState,
       charactersList: { '1': fakeResult },
+      isLoading: false,
     };
 
     expect(state).toEqual(expectedState);
