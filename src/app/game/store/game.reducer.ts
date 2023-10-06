@@ -29,7 +29,7 @@ export const initialState: GameState = {
   losingIndex: 0,
   leftPlayerWins: 0,
   rightPlayerWins: 0,
-  isLoading: false,
+  isLoading: true,
 };
 
 export const gameReducer = createReducer(

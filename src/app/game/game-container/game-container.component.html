@@ -30,7 +30,7 @@
   >
     {{ gameInitialized ? 'Play Again' : 'Play' }}
   </button>
-  <app-counter
+  <app-counter *ngIf="clashActivated"
     [leftPlayerWins]="(leftPlayerWins$ | async)!"
     [rightPlayerWins]="(rightPlayerWins$ | async)!"
   >

@@ -13,6 +13,7 @@ import { ClashFactor } from '../models/interfaces/clash-factor';
 export class GameCardComponent {
   bioCharacteristics: { [key: string]: string } = {};
   clashFactor: ClashFactor | null = null;
+  name = '';
 
   @Input() clashActivated = false;
   @Input() index = 0;
@@ -26,6 +27,7 @@ export class GameCardComponent {
   handlePlayerItemUpdate(
     playerItem: SWCharacterProperties | SWStarshipProperties | undefined,
   ) {
+    this.name = playerItem?.name || '';
     if (isCharacter(playerItem)) {
       this.setCharacterConfig(playerItem);
     }
@@ -45,7 +47,6 @@ export class GameCardComponent {
 
   setCharacterConfig(player: SWCharacterProperties): void {
     this.bioCharacteristics = {
-      name: player.name,
       mass: player.mass,
       birthYear: player.birth_year,
       gender: player.gender,
@@ -59,7 +60,6 @@ export class GameCardComponent {
 
   setStarshipConfig(starship: SWStarshipProperties): void {
     this.bioCharacteristics = {
-      name: starship.name,
       passengers: starship.passengers,
       consumables: starship.consumables,
       length: starship.length,

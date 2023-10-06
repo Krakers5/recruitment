@@ -1,20 +1,27 @@
-<mat-card [class.game-card__loser]="clashActivated && index === losingIndex"
-[class.game-card__winner]="isWinner()"
- class="game-card">
-    <mat-card-header class="game-card__header">
-      <mat-card-title>{{bioCharacteristics['name']}} 
-        <span *ngIf="isWinner()">(Winner!)</span>
-        <span *ngIf="losingIndex === 2">(Draw)</span>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="game-card__info-panel info-panel">
-        <p class="info-panel__header">Info:</p>
-        <p *ngFor="let bio of bioCharacteristics | keyvalue">{{bio.key}}: {{bio.value}}</p>
-      </div>
-      <div class="game-card__clash clash">
-        <p class="clash__header">Clash factor</p>
-        <p class="clash__factor">{{clashFactor?.name}}: {{clashActivated ? clashFactor?.value : '?'}}</p>
-      </div>
-    </mat-card-content>
+<mat-card
+  [class.game-card__loser]="clashActivated && index === losingIndex"
+  [class.game-card__winner]="isWinner()"
+  class="game-card"
+>
+  <mat-card-header class="game-card__header">
+    <mat-card-title
+      >{{ name }}
+      <span *ngIf="isWinner()">(Winner!)</span>
+      <span *ngIf="losingIndex === 2">(Draw)</span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="game-card__info-panel info-panel">
+      <p class="info-panel__header">Info:</p>
+      <p *ngFor="let bio of bioCharacteristics | keyvalue">
+        {{ bio.key }}: {{ bio.value }}
+      </p>
+    </div>
+    <div class="game-card__clash clash">
+      <p class="clash__header">Clash factor</p>
+      <p class="clash__factor">
+        {{ clashFactor?.name }}: {{ clashActivated ? clashFactor?.value : '?' }}
+      </p>
+    </div>
+  </mat-card-content>
 </mat-card>
