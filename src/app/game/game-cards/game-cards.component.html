@@ -1,0 +1,20 @@
+<section class="game-cards">
+  <mat-progress-spinner
+    *ngIf="isLoading"
+    class="game-cards__spinner"
+    mode="indeterminate"
+  ></mat-progress-spinner>
+  <ng-container *ngIf="players">
+    <div class="game-cards__player-cards">
+      <ng-container *ngFor="let player of players; let i = index">
+        <app-game-card
+          [losingIndex]="losingIndex"
+          [index]="i"
+          [playerItem]="player?.properties"
+          [clashActivated]="clashActivated"
+        >
+        </app-game-card>
+      </ng-container>
+    </div>
+  </ng-container>
+</section>

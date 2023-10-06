@@ -1,4 +1,7 @@
-import { SWPlayerItem, SWSingleResult } from '@core/models/intefaces/common-response.interface';
+import {
+  SWPlayerItem,
+  SWSingleResult,
+} from '@core/models/intefaces/common-response.interface';
 import { createReducer, on } from '@ngrx/store';
 import { SWCharacterProperties } from '@core/models/intefaces/character.interface';
 import { SWStarshipProperties } from '@core/models/intefaces/starship.interface';
@@ -10,7 +13,9 @@ export interface GameState {
   charactersList: { [id: string]: SWSingleResult };
   starshipsList: { [id: string]: SWSingleResult };
   leftPlayer: SWPlayerItem<SWCharacterProperties | SWStarshipProperties> | null;
-  rightPlayer: SWPlayerItem<SWCharacterProperties | SWStarshipProperties> | null;
+  rightPlayer: SWPlayerItem<
+    SWCharacterProperties | SWStarshipProperties
+  > | null;
   resource: Resource;
   losingIndex: number;
   leftPlayerWins: number;
@@ -37,7 +42,10 @@ export const gameReducer = createReducer(
       ...state,
       charactersList: {
         ...action.charactersResponse.results.reduce((acc, curr) => {
-          return { ...acc, [curr.uid]: { ...state.charactersList[curr.uid], ...curr } };
+          return {
+            ...acc,
+            [curr.uid]: { ...state.charactersList[curr.uid], ...curr },
+          };
         }, {}),
       },
       isLoading: false,
@@ -48,53 +56,82 @@ export const gameReducer = createReducer(
       ...state,
       starshipsList: {
         ...action.starshipsResponse.results.reduce((acc, curr) => {
-          return { ...acc, [curr.uid]: { ...state.starshipsList[curr.uid], ...curr } };
+          return {
+            ...acc,
+            [curr.uid]: { ...state.starshipsList[curr.uid], ...curr },
+          };
         }, {}),
       },
-      isLoading: false
+      isLoading: false,
     };
   }),
   on(GameApiActions.fetchRandomCharacters, (state): GameState => {
     return {
-      ...state, isLoading: true
-    }
+      ...state,
+      isLoading: true,
+    };
   }),
   on(GameApiActions.fetchRandomStarships, (state): GameState => {
     return {
-      ...state, isLoading: true
-    }
-  }),
-  on(GameApiActions.fetchRandomItemSuccess, (state, { randomItems }): GameState => {
-    const [left, right] = randomItems;
-    return {
       ...state,
-      leftPlayer: { ...state.leftPlayer, uid: left.result.uid, properties: left.result.properties },
-      rightPlayer: { ...state.rightPlayer, uid: right.result.uid, properties: right.result.properties },
-      losingIndex: getLosingIndex(left.result.properties, right.result.properties),
-      isLoading: false
+      isLoading: true,
     };
   }),
+  on(
+    GameApiActions.fetchRandomItemSuccess,
+    (state, { randomItems }): GameState => {
+      const [left, right] = randomItems;
+      return {
+        ...state,
+        leftPlayer: {
+          ...state.leftPlayer,
+          uid: left.result.uid,
+          properties: left.result.properties,
+        },
+        rightPlayer: {
+          ...state.rightPlayer,
+          uid: right.result.uid,
+          properties: right.result.properties,
+        },
+        losingIndex: getLosingIndex(
+          left.result.properties,
+          right.result.properties,
+        ),
+        isLoading: false,
+      };
+    },
+  ),
   on(GameApiActions.fetchRandomItemFail, (state): GameState => {
-    return {...state, isLoading: false}
+    return { ...state, isLoading: false };
   }),
   on(GameComponentActions.changeResource, (state, action): GameState => {
     return { ...state, resource: action.resource };
   }),
   on(GameComponentActions.leftPlayerWin, (state): GameState => {
-    return { ...state, leftPlayerWins: state.leftPlayerWins++ }
+    return { ...state, leftPlayerWins: state.leftPlayerWins++ };
   }),
   on(GameComponentActions.leftPlayerWin, (state): GameState => {
-    return { ...state, rightPlayerWins: state.rightPlayerWins++ }
+    return { ...state, rightPlayerWins: state.rightPlayerWins++ };
   }),
   on(GameComponentActions.updateWinsCounter, (state): GameState => {
-    return { ...state,
-       leftPlayerWins: state.losingIndex === 0 ? state.leftPlayerWins : state.leftPlayerWins + 1,
-      rightPlayerWins: state.losingIndex === 1 ? state.rightPlayerWins : state.rightPlayerWins + 1
-    }
-  })
+    return {
+      ...state,
+      leftPlayerWins:
+        state.losingIndex === 0
+          ? state.leftPlayerWins
+          : state.leftPlayerWins + 1,
+      rightPlayerWins:
+        state.losingIndex === 1
+          ? state.rightPlayerWins
+          : state.rightPlayerWins + 1,
+    };
+  }),
 );
 
-function getLosingIndex(leftProperties: SWCharacterProperties | SWStarshipProperties, rightProperties: SWCharacterProperties | SWStarshipProperties): number {
+function getLosingIndex(
+  leftProperties: SWCharacterProperties | SWStarshipProperties,
+  rightProperties: SWCharacterProperties | SWStarshipProperties,
+): number {
   if (isCharacter(leftProperties) && isCharacter(rightProperties)) {
     const leftValue = Number(leftProperties.height.replace(/,/g, ''));
     const rightValue = Number(rightProperties.height.replace(/,/g, ''));
@@ -118,9 +155,8 @@ function getLosingIndex(leftProperties: SWCharacterProperties | SWStarshipProper
 
 function setLoserIndex(leftValue: number, rightValue: number) {
   if (leftValue === rightValue) {
-    return 2
+    return 2;
   }
 
-  return leftValue < rightValue ? 0 : 1
-
+  return leftValue < rightValue ? 0 : 1;
 }

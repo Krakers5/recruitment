@@ -1,27 +1,38 @@
-<main class="game-container" [class.isLoading]="(isLoading$ | async)">
-<div class="resources">
-  <label for="resource">Choose a resource</label>
-  <mat-radio-group id="resource" [(ngModel)]="chosenResource">
-    <mat-radio-button [value]="Resource.PEOPLE">{{ Resource.PEOPLE }}</mat-radio-button>
-    <mat-radio-button [value]="Resource.STARSHIPS">{{ Resource.STARSHIPS}}</mat-radio-button>
-  </mat-radio-group>
-</div>
-<section class="game-cards">
-    <mat-progress-spinner *ngIf="(isLoading$ | async)" class="game-cards__spinner" mode="indeterminate"></mat-progress-spinner>
-  <ng-container *ngIf="(players$ | async) as players">
-    <div class="game-cards__player-cards">
-      <ng-container *ngFor="let player of players; let i = index;">
-          <app-game-card [losingIndex]="losingIndex$ | async" [index]="i" [playerItem]="player?.properties" [clashActivated]="clashActivated">
-          </app-game-card>
-      </ng-container>
-      </div>
-  </ng-container>
-</section>
-
-<button [disabled]="(isLoading$ | async)" class="play-button" mat-raised-button color="primary" (click)="getPlayers()">{{ gameInitialized ? 'Play Again' : 'Play'}}</button>
-<div>
-    <p>Left player wins: {{ leftPlayerWins$ | async }}</p>
-    <p>Right player wins: {{ rightPlayerWins$ | async }}</p>
-</div>
+<main class="game-container" [class.isLoading]="isLoading$ | async">
+  <div class="game-container__resources">
+    <label for="resource">Choose a resource</label>
+    <mat-radio-group id="resource" [(ngModel)]="chosenResource">
+      <mat-radio-button
+        data-test="mat-radio-people"
+        [value]="Resource.PEOPLE"
+        >{{ Resource.PEOPLE }}</mat-radio-button
+      >
+      <mat-radio-button
+        data-test="mat-radio-starships"
+        [value]="Resource.STARSHIPS"
+        >{{ Resource.STARSHIPS }}</mat-radio-button
+      >
+    </mat-radio-group>
+  </div>
+  <app-game-cards
+    [clashActivated]="clashActivated"
+    [isLoading]="(isLoading$ | async)!"
+    [players]="(players$ | async)!"
+    [losingIndex]="(losingIndex$ | async)!"
+  ></app-game-cards>
+  <button
+    data-test="play-button"
+    [disabled]="(isLoading$ | async)!"
+    class="game-container__play-button"
+    mat-raised-button
+    color="primary"
+    (click)="getPlayers()"
+  >
+    {{ gameInitialized ? 'Play Again' : 'Play' }}
+  </button>
+  <app-counter
+    [leftPlayerWins]="(leftPlayerWins$ | async)!"
+    [rightPlayerWins]="(rightPlayerWins$ | async)!"
+  >
+  </app-counter>
 </main>
-

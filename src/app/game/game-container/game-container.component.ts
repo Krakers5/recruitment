@@ -1,11 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {GameFacade} from '../store/facade/game.facade';
-import {filter, of, tap, zip} from 'rxjs';
-import {shareReplay} from 'rxjs/operators'
-import {Resource} from "../models/resource";
-import {SWPlayerItem} from "@core/models/intefaces/common-response.interface";
-import {SWCharacterProperties} from "@core/models/intefaces/character.interface";
-import {SWStarshipProperties} from "@core/models/intefaces/starship.interface";
+import { Component, OnInit } from '@angular/core';
+import { GameFacade } from '../store/facade/game.facade';
+import { filter, zip } from 'rxjs';
+import { Resource } from '../models/resource';
 
 @Component({
   selector: 'app-game-container',
@@ -13,7 +9,6 @@ import {SWStarshipProperties} from "@core/models/intefaces/starship.interface";
   styleUrls: ['./game-container.component.scss'],
 })
 export class GameContainerComponent implements OnInit {
-
   clashActivated = false;
   chosenResource: Resource = Resource.PEOPLE;
   gameInitialized = false;
@@ -23,10 +18,10 @@ export class GameContainerComponent implements OnInit {
   rightPlayer$ = this.gameFacade.rightPlayer$;
   rightPlayerWins$ = this.gameFacade.rightPlayerWins$;
   losingIndex$ = this.gameFacade.losingIndex$;
-  players$ = zip(this.leftPlayer$, this.rightPlayer$)
-    .pipe(
-      filter(([left, right]) => Boolean(left) && Boolean(right)));
-  players: SWPlayerItem<SWCharacterProperties | SWStarshipProperties>[] = [];
+  players$ = zip(this.leftPlayer$, this.rightPlayer$).pipe(
+    filter(([left, right]) => Boolean(left) && Boolean(right)),
+    filter(([left, right]) => left !== null && right !== null),
+  );
   Resource = Resource;
 
   constructor(private gameFacade: GameFacade) {}
@@ -36,15 +31,16 @@ export class GameContainerComponent implements OnInit {
     this.gameFacade.fetchAllStarships();
     this.players$.subscribe(() => {
       this.activateClash();
-    })
+    });
   }
 
   getPlayers(): void {
     this.gameInitialized = true;
     this.clashActivated = false;
-    this.chosenResource === Resource.PEOPLE ? this.gameFacade.fetchRandomCharacters() : this.gameFacade.fetchRandomStarships()
+    this.chosenResource === Resource.PEOPLE
+      ? this.gameFacade.fetchRandomCharacters()
+      : this.gameFacade.fetchRandomStarships();
   }
-
   activateClash() {
     this.clashActivated = true;
     this.gameFacade.updateWinsCounter();

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { forkJoin, of, withLatestFrom } from 'rxjs';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ApiService } from '@core/services/api.service';
-import { Store } from '@ngrx/store';
 import { GameFacade } from './facade/game.facade';
 import { getRandomArrayElement } from '../utils/utils';
 import { SWDetailedResponse } from '@core/models/intefaces/common-response.interface';
@@ -16,7 +15,6 @@ export class GameEffects {
   constructor(
     private actions$: Actions,
     private apiService: ApiService,
-    private store: Store,
     private gameFacade: GameFacade,
   ) {}
 
@@ -26,7 +24,9 @@ export class GameEffects {
       switchMap(() => {
         return this.apiService.getAllCharacters().pipe(
           map((charactersResponse) => {
-            return GameApiActions.fetchAllCharactersSuccess({ charactersResponse });
+            return GameApiActions.fetchAllCharactersSuccess({
+              charactersResponse,
+            });
           }),
           catchError(() => of(GameApiActions.fetchAllCharactersFail())),
         );
@@ -39,7 +39,9 @@ export class GameEffects {
       ofType(GameApiActions.fetchAllStarships),
       switchMap(() => {
         return this.apiService.getAllStarships().pipe(
-          map((starshipsResponse) => GameApiActions.fetchAllStarshipsSuccess({ starshipsResponse })),
+          map((starshipsResponse) =>
+            GameApiActions.fetchAllStarshipsSuccess({ starshipsResponse }),
+          ),
           catchError(() => of(GameApiActions.fetchAllStarshipsFail())),
         );
       }),
@@ -50,9 +52,14 @@ export class GameEffects {
     return this.actions$.pipe(
       ofType(GameApiActions.fetchRandomCharacters),
       withLatestFrom(this.gameFacade.charactersList$),
-      switchMap(([_, charactersList]) => {
-        const leftPlayerCharacter = getRandomArrayElement(Object.values(charactersList));
-        const rightPlayerCharacter = getRandomArrayElement(Object.values(charactersList), leftPlayerCharacter.uid);
+      switchMap(([, charactersList]) => {
+        const leftPlayerCharacter = getRandomArrayElement(
+          Object.values(charactersList),
+        );
+        const rightPlayerCharacter = getRandomArrayElement(
+          Object.values(charactersList),
+          leftPlayerCharacter.uid,
+        );
         return forkJoin([
           this.apiService.getCharacter(leftPlayerCharacter.uid),
           this.apiService.getCharacter(rightPlayerCharacter.uid),
@@ -70,9 +77,13 @@ export class GameEffects {
     return this.actions$.pipe(
       ofType(GameApiActions.fetchRandomStarships),
       withLatestFrom(this.gameFacade.starshipsList$),
-      switchMap(([_, starshipsList]) => {
-        const leftPlayerStarship = getRandomArrayElement(Object.values(starshipsList));
-        const rightPlayerStarship = getRandomArrayElement(Object.values(starshipsList));
+      switchMap(([, starshipsList]) => {
+        const leftPlayerStarship = getRandomArrayElement(
+          Object.values(starshipsList),
+        );
+        const rightPlayerStarship = getRandomArrayElement(
+          Object.values(starshipsList),
+        );
         return forkJoin([
           this.apiService.getStarship(leftPlayerStarship.uid),
           this.apiService.getStarship(rightPlayerStarship.uid),
@@ -80,7 +91,7 @@ export class GameEffects {
           map((randomItems: SWDetailedResponse<SWStarshipProperties>[]) => {
             return GameApiActions.fetchRandomItemSuccess({ randomItems });
           }),
-          catchError(() => of(GameApiActions.fetchRandomItemFail()))
+          catchError(() => of(GameApiActions.fetchRandomItemFail())),
         );
       }),
     );
