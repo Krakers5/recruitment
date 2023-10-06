@@ -10,9 +10,9 @@ export const getRandomArrayElement = (array: SWSingleResult[], uidToExclude?: st
     return array[(Math.floor(Math.random() * array.length))]
 }
 
-export const isCharacter = (f: SWCharacterProperties | SWStarshipProperties | undefined): f is SWCharacterProperties => {
-  return (f as SWCharacterProperties).gender !== undefined;
+export const isCharacter = (item: SWCharacterProperties | SWStarshipProperties | undefined): item is SWCharacterProperties => {
+  return (item as SWCharacterProperties).gender !== undefined;
 }
-export const isStarship = (f: SWCharacterProperties | SWStarshipProperties | undefined): f is SWStarshipProperties => {
-  return (f as SWStarshipProperties).starship_class !== undefined;
+export const isStarship = (item: SWCharacterProperties | SWStarshipProperties | undefined): item is SWStarshipProperties => {
+  return (item as SWStarshipProperties).starship_class !== undefined;
 }
