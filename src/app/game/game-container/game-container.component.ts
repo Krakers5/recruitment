@@ -15,13 +15,13 @@ export class GameContainerComponent implements OnInit {
   isLoading$ = this.gameFacade.isLoading$;
   leftPlayer$ = this.gameFacade.leftPlayer$;
   leftPlayerWins$ = this.gameFacade.leftPlayerWins$;
-  rightPlayer$ = this.gameFacade.rightPlayer$;
-  rightPlayerWins$ = this.gameFacade.rightPlayerWins$;
   losingIndex$ = this.gameFacade.losingIndex$;
+  rightPlayer$ = this.gameFacade.rightPlayer$;
   players$ = zip(this.leftPlayer$, this.rightPlayer$).pipe(
     filter(([left, right]) => Boolean(left) && Boolean(right)),
     filter(([left, right]) => left !== null && right !== null),
   );
+  rightPlayerWins$ = this.gameFacade.rightPlayerWins$;
   Resource = Resource;
 
   constructor(private gameFacade: GameFacade) {}

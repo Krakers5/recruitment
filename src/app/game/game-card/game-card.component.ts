@@ -15,8 +15,15 @@ export class GameCardComponent {
   clashFactor: ClashFactor | null = null;
 
   @Input() clashActivated = false;
+  @Input() index = 0;
   @Input() losingIndex: number | null = null;
   @Input() set playerItem(
+    playerItem: SWCharacterProperties | SWStarshipProperties | undefined,
+  ) {
+    this.handlePlayerItemUpdate(playerItem);
+  }
+
+  handlePlayerItemUpdate(
     playerItem: SWCharacterProperties | SWStarshipProperties | undefined,
   ) {
     if (isCharacter(playerItem)) {
@@ -27,7 +34,14 @@ export class GameCardComponent {
       this.setStarshipConfig(playerItem);
     }
   }
-  @Input() index = 0;
+
+  isWinner(): boolean {
+    return (
+      this.clashActivated &&
+      this.index !== this.losingIndex &&
+      this.losingIndex !== 2
+    );
+  }
 
   setCharacterConfig(player: SWCharacterProperties): void {
     this.bioCharacteristics = {
@@ -55,13 +69,5 @@ export class GameCardComponent {
       name: 'Crew',
       value: starship.crew,
     };
-  }
-
-  isWinner(): boolean {
-    return (
-      this.clashActivated &&
-      this.index !== this.losingIndex &&
-      this.losingIndex !== 2
-    );
   }
 }
