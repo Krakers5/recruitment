@@ -56,7 +56,6 @@ export class ApiService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log('error', error);
     if (error.status === 0) {
       console.error('An error occurred:', error.error);
     } else {
