@@ -1,0 +1,19 @@
+export const allCharactersMock = {
+    message: 'ok',
+    total_records: 10,
+    total_pages: 1,
+    previous: null,
+    next: null,
+    results: [
+        {
+            uid: "1",
+            name: "Luke Skywalker",
+            "url": "https://www.swapi.tech/api/people/1"
+          },
+          {
+            "uid": "2",
+            "name": "C-3PO",
+            "url": "https://www.swapi.tech/api/people/2"
+          },
+    ]
+}
